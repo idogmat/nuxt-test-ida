@@ -1,5 +1,9 @@
 <template>
-  <div class="product">
+  <div @mouseleave="hover = false"
+       @mouseover="hover = true"
+       @click="putProductToBasket"
+       :style="hover ? 'outline: 1px solid' : ''"
+    class="product">
     <div class="product__info"
          :style="{background:`url(${urlImg+img})`}">
       <div class="product__info__top">
@@ -7,7 +11,7 @@
           <star :rang="rang"></star>
         </div>
         <div class="product__info__top__bag">
-          <bag-in-el :key="'bag'+el"></bag-in-el>
+          <store-bag :key="'bag'+el" :size="size"></store-bag>
         </div>
       </div>
       <div class="product__info__bottom">
@@ -15,7 +19,7 @@
           {{ name }}
         </div>
         <div class="product__info__bottom__price">
-          {{ price }} ₽
+          {{ changePrice }} ₽
         </div>
       </div>
     </div>
@@ -24,17 +28,22 @@
 
 <script>
 import Star from "@/components/Star";
-import BagInEl from "@/components/baginEl";
+import storeBag from "@/components/storeBag";
 
 export default {
   data() {
     return {
       urlImg: 'https://frontend-test.idaproject.com',
+      hover:false,
+      size:{
+        width:'14px',
+        height:'14px',
+      }
     }
   },
   components: {
     Star,
-    BagInEl
+    storeBag
   },
   name: 'ProductCard',
   props: {
@@ -60,11 +69,21 @@ export default {
     },
     price: {
       type: Number,
-      required: true
+      required: true,
+
     }
   },
-  computed: {},
-  methods: {}
+  computed: {
+    changePrice(price){
+      return price.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+  },
+  methods: {
+    putProductToBasket() {
+      this.$emit('putProduct', {id: this.el,
+        category: this.category})
+    }
+  }
 }
 </script>
 

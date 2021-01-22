@@ -42,6 +42,16 @@
         &__section{
           justify-content: flex-end;
           margin: 0 0 0 auto;
+          &__input{
+            outline: none;
+            border: none;
+            background: transparent;
+            &__options{
+              outline: none;
+              border: none;
+              background: transparent;
+            }
+          }
         }
       }
       &__products{
@@ -49,6 +59,9 @@
         flex-flow: row wrap;
         justify-content: space-between;
         margin-top: 1.75rem;
+      }
+      &__pages{
+
       }
     }
   }

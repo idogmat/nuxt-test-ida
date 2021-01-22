@@ -2,8 +2,8 @@
   <svg @mouseleave="hover = false"
        @mouseover="hover = true"
        xmlns="http://www.w3.org/2000/svg"
-       width="14"
-       height="14"
+       :width="size.width"
+       :height="size.width"
        viewBox="0 0 24 27"
        fill="none">
     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -18,10 +18,9 @@
   </svg>
 </template>
 
-<script>
+<script lang="js">
 export default {
-  name: 'bagInEl',
-  props: ['el'],
+  props: ['el','size'],
   data(){
     return{
       hover:false

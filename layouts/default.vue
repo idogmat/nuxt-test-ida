@@ -1,29 +1,37 @@
 <template>
   <div>
+    <basket-form v-if="isBasket" @emitCloseBasket="emitCloseBasket()"></basket-form>
     <header class="header">
       <div class="header__logo">
         TestList
       </div>
-      <div @click="clickOnBasket"
-           class="header__basket"
-      ></div>
+      <div class="header__basket" @click="isBasket=!isBasket">
+        <store-bag :size="size" ></store-bag>
+      </div>
     </header>
     <div class="container">
-
-      <div></div>
       <Nuxt/>
-
     </div>
+
   </div>
 </template>
 <script>
 import {mapActions, mapGetters} from "vuex";
+import storeBag from "@/components/storeBag";
+import BasketForm from "@/components/BasketForm";
 
 export default {
+  components: {
+    storeBag,
+    BasketForm
+  },
   data: () => ({
-    isBasket: false
+    isBasket: false,
+    size: {
+      width: '24px',
+      height: '26px',
+    }
   }),
-
   computed: {
     ...mapActions([
       'nuxtServerInit'
@@ -31,12 +39,32 @@ export default {
     ...mapGetters([
       'GET_CATEGORIES'
     ]),
+
   },
 
   methods: {
-    clickOnBasket() {
-      this.isBasket = true
-    },
+    emitCloseBasket() {
+  this.isBasket = !this.isBasket
+}
+
+    // toggleBasket(event) {
+    //   console.log(event)
+    //   switch (event) {
+    //     case 'open':
+    //       this.isBasket = true
+    //       break
+    //     case 'close':
+    //       this.isBasket = false
+    //       break
+    //     default:
+    //       this.isBasket = false
+    //
+    //   }
+    // },
+    // toggleeBasket(eve){
+    //   console.log(eve)
+    // }
+
   },
   async created() {
 

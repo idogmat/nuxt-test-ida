@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       imgUrl: 'https://frontend-test.idaproject.com/upload/product/backpack2-4755.e0agsd.jpg'
+
     }
   },
   methods:{
