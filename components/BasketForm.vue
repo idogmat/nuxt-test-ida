@@ -1,36 +1,74 @@
 <template>
   <div class="basket"
   >
-    <div class="basket__hidden" @mousedown="closeBasket()"></div>
+    <div class="basket__hidden" @click="closeBasket()"></div>
     <div class="basket__form">
       <div class="basket__form__header">
         <h1>Корзина</h1>
-        <span @mousedown="closeBasket()">X</span>
-      </div >
-            <div class="basket__form__zero">
-              <p>Пока что вы ничего не добавили в корзину</p>
-              <button>Перейти к выбору</button>
-            </div>
-      <div class="basket__form__full" >
-        <p>Товары в корзине</p>
+        <span @click="closeBasket()">X</span>
+      </div>
+      <div v-if="GET_PRODUCTS_FROM_BASKET.length === 0 && !sandedOrder" class="basket__form__zero">
+        <p class="basket__form__zero__text">Пока что вы ничего не добавили в корзину</p>
+        <button @click="closeBasket()">Перейти к выбору</button>
+      </div>
+      <div v-else-if="GET_PRODUCTS_FROM_BASKET.length >= 0 && !sandedOrder"
+           class="basket__form__full">
+        <p class="basket__form__full__text">Товары в корзине</p>
         <div class="basket__form__full__list">
-          <basket-item></basket-item>
-          <form action="" class="basket__form__full__list__submit">
-            <input type="text">
-            <input type="text">
-            <input type="text">
-            <button>Отправить</button>
+          <basket-item v-for="(item, index) of
+        GET_PRODUCTS_FROM_BASKET"
+                       :key="item.name + index"
+                       :el="item.id"
+                       :category="item.category"
+                       :name="item.name"
+                       :rang="item.rating"
+                       :img="item.photo"
+                       :price="item.price"></basket-item>
+
+          <form
+            @submit.prevent="onSubmit" class="basket__form__full__list__submit">
+            <h4 class="basket__form__full__list__submit__title">Оформить заказ</h4>
+            <div type="text" v-for="(field,key,index) of client">
+              <input class="basket__form__full__list__submit__input"
+                     :style="{borderColor: $v.client[key].value.required && $v.client[key].value.minLength !== false ? '' : 'red'}"
+                     :key="'input'+index"
+                     v-model="field.value"
+                     :type="field.type"
+                     v-mask="field.mask ? '+7-###-###-##-##' : ''"
+                     :placeholder="field.mask ? field.mask: field.placeholder"
+                     @blur="$v.client[key].value.$touch()"
+              >
+              <div class="invalid-feedback" v-if="checkForm"> ERROR</div>
+            </div>
+            <button :disabled="checkForm" type="submit"
+                    :style="{background:checkForm ? '#737373' : ''}"
+                    class="basket__form__full__list__submit__btn">Отправить
+            </button>
+            <div class="basket__form__full__list__submit__valid" v-if="checkForm">
+              <span class="basket__form__full__list__submit__valid__span">!!</span>
+              <h4 class="basket__form__full__list__submit__valid__alarm">
+                Все поля обязательные.<br>
+                После удачной отправки формы содержимое корзины очищается</h4>
+            </div>
           </form>
         </div>
       </div>
-
+      <div v-if="sandedOrder" class="basket__form__complete">
+        <img :src="sandedOrderIcon" alt="sandedOrderIcon" class="basket__form__complete__img">
+        <h1 class="basket__form__complete__title">
+          Заявка успешно отправлена</h1>
+        <p class="basket__form__complete__info">
+          Вскоре наш менеджер свяжестя с вами</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import sandedOrderIcon from '@/assets/svg_png/ok.png'
 import {mapGetters, mapActions} from 'vuex'
 import BasketItem from '@/components/BasketItem'
+import {minLength, required} from 'vuelidate/lib/validators'
 
 export default {
   name: 'BasketForm',
@@ -38,31 +76,70 @@ export default {
     BasketItem
   },
   data: () => ({
-    orderIsDone: true,
-    isUntouchedFields: false,
+    sandedOrderIcon:sandedOrderIcon,
+    sandedOrder: false,
     client: {
       name: {
         value: '',
+        type: 'text',
         placeholder: 'Ваше имя'
       },
       phone: {
-        value: '',
+        value: '+7',
+        type: 'tel',
         placeholder: 'Телефон',
-        mask: '(999) 999-99-99'
+        mask: '+7-(999) 999-99-99'
       },
-      home: {
+      address: {
         value: '',
+        type: 'text',
         placeholder: 'Адрес'
       },
     }
   }),
+  validations: {
+    client: {
+      name: {
+        value: {required}
+      },
+      phone: {
+        value: {required, minLength: minLength(15)}
+      },
+      address: {
+        value: {required}
+      }
+    }
+  },
   computed: {
+    ...mapGetters([
+      'GET_PRODUCTS_FROM_BASKET'
+    ]),
+    checkForm() {
+      return this.$v.$invalid
+    },
 
   },
   methods: {
-    closeBasket(){
+    ...mapActions(['clearBasket']),
+    // setName({key, field}) {
+    //   console.log(field)
+    //   this.value = field.value
+    //   console.log(this.client.name)
+    //   this.$v.client[key].value.$touch()
+    // },
+    onSubmit() {
+      console.log(this.GET_PRODUCTS_FROM_BASKET)
+      console.log('name', this.client.name.value)
+      console.log('phone', this.client.phone.value)
+      console.log('address', this.client.address.value)
+      this.clearBasket()
+      this.sandedOrder = true
+
+    },
+    closeBasket() {
       console.log('ok')
       this.$emit('emitCloseBasket')
+      console.log(this.GET_PRODUCTS_FROM_BASKET)
     }
   },
 
@@ -70,142 +147,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.cursorPointer {
-  cursor: pointer;
-}
 
-.wrapper {
-  box-sizing: border-box;
-  width: 100%;
-  height: fit-content;
-  min-height: 600px;
-  padding: 52px 48px;
-  background: white;
-  border-radius: 8px 0 0 8px;
-
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 42px;
-
-    &__control {
-      width: 14px;
-      height: 14px;
-      cursor: pointer;
-
-      & ::before {
-        display: block;
-        width: 20px;
-        height: 2px;
-        background-color: black;
-        content: '';
-        transform: rotate(90deg);
-      }
-
-      * {
-        width: 20px;
-        height: 2px;
-        background-color: black;
-        transform: rotate(45deg);
-      }
-    }
-  }
-
-  .empty-basket {
-    margin-top: 24px;
-    color: black;
-  }
-
-  .list {
-    margin-top: 24px;
-
-    &__title {
-      color: grey;
-    }
-
-    &__products {
-      margin-top: 16px;
-
-      > :not(:first-child) {
-        margin-top: 12px;
-      }
-    }
-  }
-
-  .order {
-    margin-top: 32px;
-
-    &__title {
-      color: grey;
-    }
-
-    input {
-      width: 100%;
-      height: 50px;
-      margin-top: 16px;
-
-      background: grey;
-      border-radius: 8px;
-      border: transparent 1px solid;
-      padding-left: 14px;
-      color: black;
-
-      & ::placeholder {
-        color: grey;
-      }
-
-      &:focus {
-        outline: 0;
-      }
-    }
-
-    .input-error {
-
-    }
-
-    .input-valid {
-
-    }
-  }
-
-  .order-done {
-    margin-top: 60px;
-
-    &__img {
-      width: 100%;
-      height: 80px;
-    }
-
-    & :nth-child(2) {
-      width: 100%;
-      margin-top: 24px;
-      color: black;
-      text-align: center;
-    }
-
-    & :nth-child(3) {
-      width: 100%;
-      margin-top: 2px;
-
-      color: grey;
-      text-align: center;
-    }
-  }
-
-  .control {
-    width: 100%;
-    height: 50px;
-    margin-top: 24px;
-    border-radius: 8px;
-    background: black;
-    cursor: pointer;
-    color: white;
-
-    &:hover {
-      background: grey;
-    }
-  }
-}
 </style>

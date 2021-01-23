@@ -3,7 +3,7 @@
        @mouseover="hover = true"
        @click="putProductToBasket"
        :style="hover ? 'outline: 1px solid' : ''"
-    class="product">
+       class="product">
     <div class="product__info"
          :style="{background:`url(${urlImg+img})`}">
       <div class="product__info__top">
@@ -16,7 +16,7 @@
       </div>
       <div class="product__info__bottom">
         <div class="product__info__bottom__name">
-          {{ name }}
+          {{ capitalizeName }}
         </div>
         <div class="product__info__bottom__price">
           {{ changePrice }} ₽
@@ -27,17 +27,18 @@
 </template>
 
 <script>
-import Star from "@/components/Star";
-import storeBag from "@/components/storeBag";
+import Star from "@/components/svg/Star";
+import storeBag from "@/components/svg/storeBag";
+import {capitalizeName,changePrice} from '@/assets/convertrs/convertrs'
 
 export default {
   data() {
     return {
       urlImg: 'https://frontend-test.idaproject.com',
-      hover:false,
-      size:{
-        width:'14px',
-        height:'14px',
+      hover: false,
+      size: {
+        width: '14px',
+        height: '14px',
       }
     }
   },
@@ -74,14 +75,15 @@ export default {
     }
   },
   computed: {
-    changePrice(price){
-      return price.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-}
+    changePrice,
+    capitalizeName
   },
   methods: {
     putProductToBasket() {
-      this.$emit('putProduct', {id: this.el,
-        category: this.category})
+      this.$emit('putProduct', {
+        id: this.el,
+        category: this.category
+      })
     }
   }
 }

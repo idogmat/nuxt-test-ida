@@ -6,7 +6,8 @@
         TestList
       </div>
       <div class="header__basket" @click="isBasket=!isBasket">
-        <store-bag :size="size" ></store-bag>
+        <span class="header__basket__counter">{{GET_PRODUCTS_FROM_BASKET.length}}</span>
+        <store-bag :size="size"></store-bag>
       </div>
     </header>
     <div class="container">
@@ -17,7 +18,7 @@
 </template>
 <script>
 import {mapActions, mapGetters} from "vuex";
-import storeBag from "@/components/storeBag";
+import storeBag from "@/components/svg/storeBag";
 import BasketForm from "@/components/BasketForm";
 
 export default {
@@ -37,15 +38,17 @@ export default {
       'nuxtServerInit'
     ]),
     ...mapGetters([
-      'GET_CATEGORIES'
+      'GET_CATEGORIES',
+      'GET_PRODUCTS_FROM_BASKET'
     ]),
 
   },
 
   methods: {
     emitCloseBasket() {
-  this.isBasket = !this.isBasket
-}
+      this.isBasket = !this.isBasket
+
+    }
 
     // toggleBasket(event) {
     //   console.log(event)

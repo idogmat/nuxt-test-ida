@@ -8,8 +8,8 @@
                 :key="sortType.type">{{ sortType.title }}
         </option>
       </select>
-      {{ selectedSortType }}
-      {{ $route.params.id }}
+<!--      {{ selectedSortType }}-->
+<!--      {{ $route.params.id }}-->
     </div>
     <div class="main__board__list__products">
       <product-card
@@ -81,8 +81,6 @@ export default {
     ...mapActions(['pushProductToBasket']),
     addProduct({category, id}) {
       let item = new Object({category, id})
-      console.log(this.$store.state)
-      console.log(item)
       this.pushProductToBasket(item)
     }
   },

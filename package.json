@@ -11,7 +11,12 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.5",
     "core-js": "^3.8.2",
-    "nuxt": "^2.14.12"
+    "nuxt": "^2.14.12",
+    "nuxt-validate": "^1.0.1",
+    "simple-vue-validator": "^0.16.0",
+    "v-mask": "^2.2.4",
+    "vue": "^2.6.12",
+    "vuelidate": "^0.7.6"
   },
   "devDependencies": {
     "@nuxtjs/style-resources": "^1.0.0",
