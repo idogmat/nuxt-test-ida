@@ -54,6 +54,15 @@
           }
         }
       }
+      &__nextbtn{
+        width: 45%;
+        height: 50px;
+        background: #1F1F1F;
+        border-radius: 8px;
+        color: #FFFFFF;
+        margin: auto;
+        font-size: 2rem;
+      }
       &__products{
         display: flex;
         flex-flow: row wrap;
@@ -63,6 +72,7 @@
       &__pages{
 
       }
+
     }
   }
 }

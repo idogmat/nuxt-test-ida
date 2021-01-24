@@ -76,7 +76,7 @@ export default {
     BasketItem
   },
   data: () => ({
-    sandedOrderIcon:sandedOrderIcon,
+    sandedOrderIcon: sandedOrderIcon,
     sandedOrder: false,
     client: {
       name: {
@@ -121,12 +121,6 @@ export default {
   },
   methods: {
     ...mapActions(['clearBasket']),
-    // setName({key, field}) {
-    //   console.log(field)
-    //   this.value = field.value
-    //   console.log(this.client.name)
-    //   this.$v.client[key].value.$touch()
-    // },
     onSubmit() {
       console.log(this.GET_PRODUCTS_FROM_BASKET)
       console.log('name', this.client.name.value)
@@ -137,9 +131,7 @@ export default {
 
     },
     closeBasket() {
-      console.log('ok')
       this.$emit('emitCloseBasket')
-      console.log(this.GET_PRODUCTS_FROM_BASKET)
     }
   },
 

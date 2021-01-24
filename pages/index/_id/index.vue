@@ -8,10 +8,8 @@
                 :key="sortType.type">{{ sortType.title }}
         </option>
       </select>
-<!--      {{ selectedSortType }}-->
-<!--      {{ $route.params.id }}-->
     </div>
-    <div class="main__board__list__products">
+    <div ref="productsList" class="main__board__list__products">
       <product-card
         v-for="(item, index) of
         GET_PRODUCT_CARDS({category: $route.params.id,sortingType: selectedSortType.type,pageCounter})"
@@ -26,7 +24,7 @@
       >
       </product-card>
     </div>
-    <button @click="pageCounter++">NextPage</button>
+    <button class="main__board__list__nextbtn" @click="pageCounter++">NextPage</button>
   </div>
 </template>
 <script>
@@ -59,12 +57,6 @@ export default {
         }
       ]
     }),
-  // pages() {
-  //   let arr = this.$store.state[`category_${this.$route.params.id}`]
-  //   debugger
-  //   if (this.pageCounter >= Number(Math.ceil(arr.length / 15))) Number(Math.ceil(arr.length / 15))
-  //
-  // },
   computed: {
 
     ...mapGetters([
@@ -86,8 +78,6 @@ export default {
   },
   watch: {},
   created() {
-    // await console.log(this.$store)
-
   }
 }
 </script>

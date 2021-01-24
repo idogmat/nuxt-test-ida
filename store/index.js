@@ -14,7 +14,7 @@ export const mutations = {
   },
   SET_PRODUCTS_TO_BASKET(state, product) {//blocked for more then 1 el
     // if(!state.basket.find(e => e.id === product.id)) {
-      state.basket.push(state[`category_${product.category}`].find(e => e.id === product.id))
+    state.basket.push(state[`category_${product.category}`].find(e => e.id === product.id))
     // }
 // else{
     //   state.basket.push(state[`category_${product.category}`].find(e => e.id === product.id)
@@ -22,8 +22,8 @@ export const mutations = {
     // }
   },
   DEL_PRODUCT_ON_BASKET(state, newBasket) {
-  state.basket = newBasket
-}
+    state.basket = newBasket
+  }
 }
 export const getters = {
   GET_CATEGORIES: state => state.categories,
@@ -54,15 +54,15 @@ export const actions = {
       })
       .catch(error => console.log(error))
   },
-  pushProductToBasket({getters,commit}, product) {
+  pushProductToBasket({getters, commit}, product) {
     commit('SET_PRODUCTS_TO_BASKET', product)
 ///
   },
-  delProductFromBasket({state,commit},id){
+  delProductFromBasket({state, commit}, id) {
     let uniqElement = false
     let newBasket = state.basket.filter(item => {
-      if(!uniqElement) {
-        if(item.id === id)
+      if (!uniqElement) {
+        if (item.id === id)
           uniqElement = true
         return item.id !== id
       } else {

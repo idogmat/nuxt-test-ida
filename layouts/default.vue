@@ -49,25 +49,6 @@ export default {
       this.isBasket = !this.isBasket
 
     }
-
-    // toggleBasket(event) {
-    //   console.log(event)
-    //   switch (event) {
-    //     case 'open':
-    //       this.isBasket = true
-    //       break
-    //     case 'close':
-    //       this.isBasket = false
-    //       break
-    //     default:
-    //       this.isBasket = false
-    //
-    //   }
-    // },
-    // toggleeBasket(eve){
-    //   console.log(eve)
-    // }
-
   },
   async created() {
 

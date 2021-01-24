@@ -72,7 +72,6 @@ export default {
 
     delProduct(id){
       this.delProductFromBasket(id)
-
     }
   }
 }
