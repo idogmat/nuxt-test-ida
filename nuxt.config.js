@@ -1,5 +1,6 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+
   head: {
     title: 'ida-test',
     htmlAttrs: {
@@ -42,26 +43,18 @@ export default {
   },
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/style-resources'
   ],
-
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'https://frontend-test.idaproject.com'
   },
-  env: {
-    BASE_URL: 'https://frontend-test.idaproject.com'
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.BROWSER_BASE_URL
+    }
   },
-  //
-  //
-  // publicRuntimeConfig: {
-  //   axios: {
-  //     browserBaseURL: process.env.BROWSER_BASE_URL
-  //   }
-  // },
-  //
+
   // privateRuntimeConfig: {
   //   axios: {
   //     baseURL: process.env.BASE_URL

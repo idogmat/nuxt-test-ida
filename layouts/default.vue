@@ -35,7 +35,7 @@ export default {
   }),
   computed: {
     ...mapActions([
-      'nuxtServerInit'
+      'fetchCategories'
     ]),
     ...mapGetters([
       'GET_CATEGORIES',
@@ -43,7 +43,9 @@ export default {
     ]),
 
   },
-
+  mounted(){
+    this.$store.dispatch('fetchCategories', {route : 1})
+  },
   methods: {
     emitCloseBasket() {
       this.isBasket = !this.isBasket

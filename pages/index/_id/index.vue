@@ -63,7 +63,7 @@ export default {
       'GET_PRODUCT_CARDS'
     ]),
     ...mapActions([
-      'nuxtServerInit'
+      'fetchCategories'
     ]),
   },
   mounted() {

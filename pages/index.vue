@@ -40,7 +40,7 @@ export default {
   computed: {
 
     ...mapActions([
-      'nuxtServerInit'
+      'fetchCategories'
     ]),
     ...mapGetters([
       'GET_CATEGORIES']),
