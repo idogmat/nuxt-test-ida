@@ -21,6 +21,7 @@ export default {
     '@/assets/style/main.scss'
   ],
   router: {
+    base: '/nuxt-test-ida/',
     middleware: [
       'redirect'
     ]
