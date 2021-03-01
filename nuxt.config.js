@@ -1,6 +1,5 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
-
   head: {
     title: 'ida-test',
     htmlAttrs: {
@@ -20,11 +19,10 @@ export default {
     // SCSS file in the project
     '@/assets/style/main.scss'
   ],
+  generate: {
+  },
   router: {
-    base: '/nuxt-test-ida/',
-    middleware: [
-      'redirect'
-    ]
+    base: '/nuxt-test-ida-deploy/'
   },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -50,11 +48,11 @@ export default {
   axios: {
     baseURL: 'https://frontend-test.idaproject.com'
   },
-  publicRuntimeConfig: {
-    axios: {
-      browserBaseURL: process.env.BROWSER_BASE_URL
-    }
-  },
+  // publicRuntimeConfig: {
+  //   axios: {
+  //     browserBaseURL: process.env.BROWSER_BASE_URL
+  //   }
+  // },
 
   // privateRuntimeConfig: {
   //   axios: {
